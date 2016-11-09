@@ -121,11 +121,19 @@ public class Statistics {
 
     }
 
-    public void processorThroughput(long startTime, long endTime, int producer, int consumer){
-        long totalTime = endTime + startTime;
-        int totalJobs = producer + consumer;
-        double processorThoughput = totalJobs/totalTime;
-        System.out.println("Processor throughput percentage is " + processorThoughput + " percent");
+    public void processorThroughput(long startTime, long endTime,  int consumer){
+        long totalTime = endTime - startTime;
+        int totalJobs =  consumer;
+        double processorThroughput = (double) totalJobs/totalTime;
+        System.out.println("The Processor throughput percentage is " + processorThroughput * 100 + " percent");
+    }
+
+
+    public void processorUtilization(long startTime, long endTime, int busyTime){
+        long totalTime = endTime - startTime;
+        int consumerBusyTime = busyTime;
+        double processorutilization = (double) consumerBusyTime/totalTime;
+        System.out.println("Processor utilization is at " + processorutilization *100 + " percent");
     }
 
 

@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Producer implements Runnable {
 
-    public static int  totalJobsProducer = 0;
+
 
 
 
@@ -23,7 +23,7 @@ public class Producer implements Runnable {
         Job job;
 
         while (!Thread.currentThread().isInterrupted()) {
-            totalJobsProducer++;
+
             try {
 
 

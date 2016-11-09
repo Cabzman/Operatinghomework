@@ -27,7 +27,8 @@ public class Factory {
         threadgroup.interrupt();
 
         long endTime = System.currentTimeMillis();
-        stats.processorThroughput(startTime,endTime,Consumer.totalJobsConsumer,Producer.totalJobsProducer);
+        stats.processorThroughput(startTime,endTime,Consumer.totalJobsConsumer);
+        stats.processorUtilization(startTime,endTime,Consumer.busyTime);
         //Service time needs to be worked on, should equal the time the process ran.
 
 

@@ -9,10 +9,13 @@ import java.util.*;
 
 public class Consumer implements Runnable {
     long start;
-    long finishIO;
-    long finishCPU;
+
     int countIO;
-    int countCPU;
+
+    //CPU utilization
+    public static int busyTime;
+
+
     //Average service time
     public static ArrayList averageTimeIO = new ArrayList();
     public static ArrayList averageTimeCPU = new ArrayList();
@@ -60,6 +63,7 @@ public class Consumer implements Runnable {
                     System.out.println("Consumer napping for 5");
                     System.out.println("Consumer consumed job:" + job + " " + job.getType());
                     long waitTimeEndIO = System.currentTimeMillis();
+                    busyTime = busyTime + 5;
                     SleepUtilities.nap(5);
                     long turnAroundTimeIOend = System.currentTimeMillis();
 
@@ -90,6 +94,7 @@ public class Consumer implements Runnable {
                     System.out.println("Consumer napping for 50");
                     System.out.println("Consumer consumed job:" + job + " " + job.getType());
                     long waitTimeEndCPU = System.currentTimeMillis();
+                    busyTime = busyTime + 50;
                     SleepUtilities.nap(50);
                     long turnAroundTimeCPUend = System.currentTimeMillis();
                     long temp = System.currentTimeMillis() - waitTimeEndCPU;
@@ -103,7 +108,7 @@ public class Consumer implements Runnable {
                         maxWaitTimeTotalCPU = tempWait;
                     }
 //
-                    averageTimeCPU.add(temp);
+
                     averageWaitTimeCPU.add(tempWait);
 //
                     long tempTurnAroundTimeCPU = turnAroundTimeCPUend - job.getProcessStart();

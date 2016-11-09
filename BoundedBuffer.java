@@ -20,8 +20,8 @@ public class BoundedBuffer implements Buffer   {
     private Semaphore full;
     private int count;
     private int in, out;
-   private LinkedList buffer;
-    //private PriorityQueue buffer;
+  private LinkedList buffer;
+  //  private PriorityQueue buffer;
 
     public BoundedBuffer() {
         // buffer is initially empty
@@ -29,14 +29,17 @@ public class BoundedBuffer implements Buffer   {
         in = 0;
         out = 0;
 
-        buffer = new LinkedList();
+       buffer = new LinkedList();
+
+
+
         //need to make a compare to method
 //        buffer = new PriorityQueue<Job>( new Comparator<Job>() {
 //            @Override
 //            public int compare(Job job1, Job job2) {
-//                if(job1.getType().equals("I/O)")){
+//                if(job1.getType().equals("I/O)") && job2.getType().equals("CPU")){
 //                    return 1;
-//                }else if(job2.getType().equals("I/O)")){
+//                }else if(job2.getType().equals("I/O)") && job1.getType().equals("CPU") ){
 //                    return -1;
 //                }
 //                return 0;
@@ -82,7 +85,7 @@ public class BoundedBuffer implements Buffer   {
         // remove an item from the buffer
         --count;
        Object item = buffer.peek();
-        Object[] tempBuffer;
+
         buffer.remove();
         out = (out + 1) % BUFFER_SIZE;
 
@@ -91,18 +94,6 @@ public class BoundedBuffer implements Buffer   {
         } else {
            System.out.println("Consumer Consumed " + item + " Buffer Size = " + count);
         }
-
-
-
-            tempBuffer =buffer.toArray();
-
-        List tempList = Arrays.asList(tempBuffer);
-       // System.out.println("Buffer is full off");
-       // for (int i = 0; i < tempList.size(); i++) {
-
-       //     System.out.println(tempList.get(i));
-       // }
-
 
         mutex.release();
         empty.release();
