@@ -7,6 +7,11 @@
 import java.util.*;
 
 public class Producer implements Runnable {
+
+    public static int  totalJobsProducer = 0;
+
+
+
     String jobType;
 
     public Producer(Buffer b, String jobType) {
@@ -17,24 +22,32 @@ public class Producer implements Runnable {
     public void run() {
         Job job;
 
-        while (true) {
-            System.out.println("Producer napping");
-            if (jobType == ("I/O")) {
-                System.out.println("Producer napping for 10");
-                SleepUtilities.nap(10);
-            } else {
-                System.out.println("Producer napping for 100");
-                SleepUtilities.nap(100);
+        while (!Thread.currentThread().isInterrupted()) {
+            totalJobsProducer++;
+            try {
+
+
+                if (jobType.equals("I/O")) {
+                    System.out.println("Producer napping for 10");
+                    SleepUtilities.nap(10);
+                } else {
+                    System.out.println("Producer napping for 100");
+                    SleepUtilities.nap(100);
+                }
+
+
+                // produce an item & enter it into the buffer
+                job = new Job(jobType);
+                System.out.println("Producer produced " + job + " " + job.getType().toString());
+
+                buffer.insert(job);
+            } catch (Exception e) {
+                Thread.currentThread().interrupt();
+                break;
             }
-
-
-            // produce an item & enter it into the buffer
-            job = new Job(jobType);
-            System.out.println("Producer produced " + job + job.getType().toString());
-
-            buffer.insert(job);
         }
     }
 
-    private Buffer buffer;
-}
+        private Buffer buffer;
+    }
+

@@ -13,31 +13,42 @@
 
 
 public class Job {
-    long serviceStartTime;
+    //long serviceStartTime;
     long serviceCompletionTime;
-    long waitTime;
+    long processStart;
+    long turnAroundTime;
+
+    long waitTimeEnd;
     String type;
 
 
     public Job(String type){
-        serviceStartTime =  System.currentTimeMillis();
+        processStart=  System.currentTimeMillis();
         this.type = type;
 
     }
-
-    public long getWaitTime(){
-        waitTime = serviceStartTime - System.currentTimeMillis();
-        return waitTime;
+    public long getProcessStart(){
+        return processStart;
     }
+
+
+    public void waitTimeEnd(long number){
+        waitTimeEnd = System.currentTimeMillis();
+    }
+
+
+    public long getWaitTimeEnd() {
+        return waitTimeEnd;
+    }
+
+
 
     public long getServiceCompletionTime(){
         return System.currentTimeMillis();
     }
 
 
-    long getServiceStartTime(){
-                return serviceStartTime;
-    }
+
 
     void setServiceCompletionTime(){
         serviceCompletionTime = System.currentTimeMillis();

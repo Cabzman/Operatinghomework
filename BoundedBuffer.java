@@ -2,10 +2,7 @@
 
 import sun.awt.image.ImageWatched;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.PriorityQueue;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -17,14 +14,14 @@ import java.util.concurrent.Semaphore;
  */
 public class BoundedBuffer implements Buffer   {
 
-    private static final int BUFFER_SIZE = 6;
+    private static final int BUFFER_SIZE = 10000;
     private Semaphore mutex;
     private Semaphore empty;
     private Semaphore full;
     private int count;
     private int in, out;
-   // private LinkedList buffer;
-    private PriorityQueue buffer;
+   private LinkedList buffer;
+    //private PriorityQueue buffer;
 
     public BoundedBuffer() {
         // buffer is initially empty
@@ -32,18 +29,19 @@ public class BoundedBuffer implements Buffer   {
         in = 0;
         out = 0;
 
-        //buffer = new LinkedList();
-        buffer = new PriorityQueue<Job>( new Comparator<Job>() {
-            @Override
-            public int compare(Job job1, Job job2) {
-                if(job1.getType().equals("I/O)")){
-                    return 1;
-                }else if(job2.getType().equals("I/O)")){
-                    return -1;
-                }
-                return 0;
-            }
-        });
+        buffer = new LinkedList();
+        //need to make a compare to method
+//        buffer = new PriorityQueue<Job>( new Comparator<Job>() {
+//            @Override
+//            public int compare(Job job1, Job job2) {
+//                if(job1.getType().equals("I/O)")){
+//                    return 1;
+//                }else if(job2.getType().equals("I/O)")){
+//                    return -1;
+//                }
+//                return 0;
+//            }
+//        });
 
         mutex = new Semaphore(1);
         empty = new Semaphore(BUFFER_SIZE);
@@ -80,17 +78,31 @@ public class BoundedBuffer implements Buffer   {
         } catch (Exception e) {
         }
 
+
         // remove an item from the buffer
         --count;
        Object item = buffer.peek();
+        Object[] tempBuffer;
         buffer.remove();
         out = (out + 1) % BUFFER_SIZE;
 
         if (count == 0) {
             System.out.println("Consumer Consumed " + item + " Buffer EMPTY");
         } else {
-            System.out.println("Consumer Consumed " + item + " Buffer Size = " + count);
+           System.out.println("Consumer Consumed " + item + " Buffer Size = " + count);
         }
+
+
+
+            tempBuffer =buffer.toArray();
+
+        List tempList = Arrays.asList(tempBuffer);
+       // System.out.println("Buffer is full off");
+       // for (int i = 0; i < tempList.size(); i++) {
+
+       //     System.out.println(tempList.get(i));
+       // }
+
 
         mutex.release();
         empty.release();
