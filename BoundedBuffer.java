@@ -14,14 +14,14 @@ import java.util.concurrent.Semaphore;
  */
 public class BoundedBuffer implements Buffer   {
 
-    private static final int BUFFER_SIZE = 10000;
+    private static final int BUFFER_SIZE = 2;
     private Semaphore mutex;
     private Semaphore empty;
     private Semaphore full;
     private int count;
     private int in, out;
-  private LinkedList buffer;
-  //  private PriorityQueue buffer;
+  //private LinkedList buffer;
+    private PriorityQueue buffer;
 
     public BoundedBuffer() {
         // buffer is initially empty
@@ -29,22 +29,22 @@ public class BoundedBuffer implements Buffer   {
         in = 0;
         out = 0;
 
-       buffer = new LinkedList();
+       //buffer = new LinkedList();
 
 
 
-        //need to make a compare to method
-//        buffer = new PriorityQueue<Job>( new Comparator<Job>() {
-//            @Override
-//            public int compare(Job job1, Job job2) {
-//                if(job1.getType().equals("I/O)") && job2.getType().equals("CPU")){
-//                    return 1;
-//                }else if(job2.getType().equals("I/O)") && job1.getType().equals("CPU") ){
-//                    return -1;
-//                }
-//                return 0;
-//            }
-//        });
+
+        buffer = new PriorityQueue<Job>( new Comparator<Job>() {
+            @Override
+            public int compare(Job job1, Job job2) {
+                if(job1.getType().equals("I/O)") && job2.getType().equals("CPU")){
+                    return 1;
+                }else if(job2.getType().equals("I/O)") && job1.getType().equals("CPU") ){
+                    return -1;
+                }
+                return 0;
+            }
+        });
 
         mutex = new Semaphore(1);
         empty = new Semaphore(BUFFER_SIZE);
@@ -52,7 +52,7 @@ public class BoundedBuffer implements Buffer   {
     }
 
     // producer calls this method
-    public void insert(Object item) {
+    public void insert(Job item) {
         try {
             empty.acquire();
             mutex.acquire();
@@ -60,7 +60,7 @@ public class BoundedBuffer implements Buffer   {
         }
         // add an item to the buffer
         ++count;
-      buffer.add(item);
+        buffer.add(item);
         in = (in + 1) % BUFFER_SIZE;
 
         if (count == BUFFER_SIZE) {
@@ -84,7 +84,7 @@ public class BoundedBuffer implements Buffer   {
 
         // remove an item from the buffer
         --count;
-       Object item = buffer.peek();
+       Job item = (Job) buffer.peek();
 
         buffer.remove();
         out = (out + 1) % BUFFER_SIZE;

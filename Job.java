@@ -13,10 +13,12 @@
 
 
 public class Job {
-    //long serviceStartTime;
+
     long serviceCompletionTime;
     long processStart;
-    long turnAroundTime;
+    long  arrivialTime;
+    long timeinBuffer;
+    int sleepTime;
 
     long waitTimeEnd;
     String type;
@@ -27,27 +29,25 @@ public class Job {
         this.type = type;
 
     }
-    public long getProcessStart(){
-        return processStart;
+
+    public void sleepTime(int duration){
+        int temp = (int) (duration * -Math.log(Math.random()));
+        sleepTime = temp;
     }
 
-
-    public void waitTimeEnd(long number){
-        waitTimeEnd = System.currentTimeMillis();
-    }
-
-
-    public long getWaitTimeEnd() {
-        return waitTimeEnd;
+    public int getSleepTime(){
+        return sleepTime;
     }
 
 
 
-    public long getServiceCompletionTime(){
-        return System.currentTimeMillis();
+    public void arrivialTime(){
+        arrivialTime = System.currentTimeMillis();
     }
 
-
+    public long getArrivialTime(){
+        return  arrivialTime;
+    }
 
 
     void setServiceCompletionTime(){

@@ -17,8 +17,8 @@ public class Consumer implements Runnable {
 
 
     //Average service time
-    public static ArrayList averageTimeIO = new ArrayList();
-    public static ArrayList averageTimeCPU = new ArrayList();
+    public static ArrayList averageServiceTimeIO = new ArrayList();
+    public static ArrayList averageServiceTimeCPU = new ArrayList();
     //Max service Time
     public static long maxServiceTimeIO = 0;
     public static long maxServiceTimeCPU = 0;
@@ -62,24 +62,27 @@ public class Consumer implements Runnable {
                 if (type == ("I/O")) {
                     System.out.println("Consumer napping for 5");
                     System.out.println("Consumer consumed job:" + job + " " + job.getType());
-                    long waitTimeEndIO = System.currentTimeMillis();
-                    busyTime = busyTime + 5;
-                    SleepUtilities.nap(5);
-                    long turnAroundTimeIOend = System.currentTimeMillis();
 
-                    long temp = turnAroundTimeIOend - waitTimeEndIO;
-                    if (maxServiceTimeIO < temp) {
-                        maxServiceTimeIO = temp;
+                    busyTime = busyTime + job.getSleepTime() * 10;
+                    long serviceTimeStartIO = System.currentTimeMillis();
+                    SleepUtilities.nap(job.getSleepTime());
+                    long serviceTimeEndIO = System.currentTimeMillis();
+
+                    long tempServiceTimeIO = serviceTimeEndIO - serviceTimeStartIO ;
+                    if (maxServiceTimeIO < tempServiceTimeIO) {
+                        maxServiceTimeIO = tempServiceTimeIO;
                     }
-                    averageTimeIO.add(temp);
+                    averageServiceTimeIO.add(tempServiceTimeIO);
 
-                    long tempWait = waitTimeEndIO - job.getProcessStart();
+                    //subtract 50 to shift everything to line everything up properly
+                    long tempWait =( (serviceTimeStartIO - job.getArrivialTime()) - job.getSleepTime() * 10 );
+
                     if (maxWaitTimeTotalIO < tempWait) {
                         maxWaitTimeTotalIO = tempWait;
                     }
                     averageWaitTimeIO.add(tempWait);
 
-                    long tempTurnAroundTimeIO = turnAroundTimeIOend - job.getProcessStart();
+                    long tempTurnAroundTimeIO = tempWait + tempServiceTimeIO  ;
                     averageTurnAroundTimeIO.add(tempTurnAroundTimeIO);
 
                     if (maxTurnAroundTimeIO < tempTurnAroundTimeIO) {
@@ -93,25 +96,26 @@ public class Consumer implements Runnable {
                 } else {
                     System.out.println("Consumer napping for 50");
                     System.out.println("Consumer consumed job:" + job + " " + job.getType());
-                    long waitTimeEndCPU = System.currentTimeMillis();
-                    busyTime = busyTime + 50;
-                    SleepUtilities.nap(50);
-                    long turnAroundTimeCPUend = System.currentTimeMillis();
-                    long temp = System.currentTimeMillis() - waitTimeEndCPU;
-                    averageTimeCPU.add(temp);
-                    if (maxServiceTimeCPU < temp) {
-                        maxServiceTimeCPU = temp;
+
+                    busyTime = busyTime + job.getSleepTime() * 10;
+                    long serviceTimeStartCPU = System.currentTimeMillis();
+                    SleepUtilities.nap(job.getSleepTime());
+                    long serviceTimeEndCPU = System.currentTimeMillis();
+                    long tempServiceTimeCPU = serviceTimeEndCPU - serviceTimeStartCPU;
+                    averageServiceTimeCPU.add(tempServiceTimeCPU);
+
+                    if (maxServiceTimeCPU < tempServiceTimeCPU) {
+                        maxServiceTimeCPU = tempServiceTimeCPU;
                     }
-                    long tempWait = waitTimeEndCPU - job.getProcessStart();
-//
+
+                    long tempWait = ( (serviceTimeStartCPU - job.getArrivialTime()));
+
+                    averageWaitTimeCPU.add(tempWait);
                     if (maxWaitTimeTotalCPU < tempWait) {
                         maxWaitTimeTotalCPU = tempWait;
                     }
 //
-
-                    averageWaitTimeCPU.add(tempWait);
-//
-                    long tempTurnAroundTimeCPU = turnAroundTimeCPUend - job.getProcessStart();
+                    long tempTurnAroundTimeCPU =  tempServiceTimeCPU + tempWait;
 
                     averageTurnAroundTimeCPU.add(tempTurnAroundTimeCPU);
                     if (maxTurnAroundTimeCPU < tempTurnAroundTimeCPU) {
@@ -119,7 +123,7 @@ public class Consumer implements Runnable {
                     }
 
 
-//                    countCPU++;
+
 
                 }
             } catch (Exception e) {
