@@ -29,23 +29,23 @@ public class Producer implements Runnable {
 
                 if (jobType.equals("I/O")) {
                     System.out.println("Producer napping for random amount of time based off 10");
-                    int temp = (int) (10* -Math.log(Math.random()));
-                    SleepUtilities.nap(temp);
+                    int temp = (int) (100* -Math.log(Math.random()));
+                    SleepUtilities.nap(10);
                 } else {
                     System.out.println("Producer napping for random amount of time based off 100");
                     int temp = (int) (100 * -Math.log(Math.random()));
-                    SleepUtilities.nap(temp);
+                    SleepUtilities.nap(100);
                 }
 
 
                 // produce an item & enter it into the buffer
                 job = new Job(jobType);
                 System.out.println("Producer produced " + job + " " + job.getType().toString());
-                if (job.getType() == "I/O"){
-                    job.sleepTime(5);
-                }else{
-                    job.sleepTime(50);
-                }
+//                if (job.getType() == "I/O"){
+//                    job.sleepTime(5);
+//                }else{
+//                    job.sleepTime(50);
+//                }
                 job.arrivialTime();
                 buffer.insert(job);
             } catch (Exception e) {

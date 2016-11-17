@@ -34,12 +34,12 @@ public class Statistics {
     }
 
     public void averageServiceTimeCPU(ArrayList time) {
-        for (int i = 0; i < time.size(); i++) {
+        for (int i = 0; i < time.size()-1; i++) {
             long temp = (long) time.get(i);
             averageServiceTimeCPU = (temp + averageServiceTimeCPU);
 
         }
-        System.out.println("Average service time CPU : " + (averageServiceTimeCPU/time.size())/10);
+        System.out.println("Average service time CPU : " + (averageServiceTimeCPU/((time.size())-1)/10));
 
 
     }
@@ -120,6 +120,7 @@ public class Statistics {
         for (int i = 0; i < time.size(); i++) {
             long temp = (long) time.get(i);
              averageTurnAroundTimeCPU= (temp + averageTurnAroundTimeCPU);
+            int test1 = time.size();
 
         }
         System.out.println("Average turn around time CPU : " + (double)((averageTurnAroundTimeCPU/time.size())/10));
@@ -130,8 +131,9 @@ public class Statistics {
     public void processorThroughput(long startTime, long endTime,  int consumer){
         long totalTime = endTime - startTime;
         int totalJobs =  consumer;
-        double processorThroughput = (double) (totalJobs/(totalTime/1000));
-        System.out.println("The Processor throughput  is " + processorThroughput + " jobs per second");
+        double processorThroughput = (double) (totalJobs/(totalTime/10));
+        System.out.println("The total jobs done is " + totalJobs + " and the time it took is " + totalTime + " and the " +
+                " processorThroughput is " + processorThroughput);
     }
 
 
@@ -139,7 +141,7 @@ public class Statistics {
         long totalTime = endTime - startTime;
         int consumerBusyTime = busyTime;
         double processorutilization = (double) consumerBusyTime/totalTime;
-        System.out.println("Processor utilization is at " + processorutilization *100 + " percent");
+        System.out.println("Processor utilization is at " + processorutilization * 1000  + " percent");
     }
 
 

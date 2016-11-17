@@ -20,7 +20,7 @@ public class SleepUtilities
 	 */
 	public static void nap(int duration) {
         	int sleeptime = (int) (duration) ;
-        	try { Thread.sleep(sleeptime * 10); }
+        	try { Thread.sleep(sleeptime * 10 ); }
         	catch (InterruptedException e) {}
 	}
 

@@ -63,9 +63,9 @@ public class Consumer implements Runnable {
                     System.out.println("Consumer napping for 5");
                     System.out.println("Consumer consumed job:" + job + " " + job.getType());
 
-                    busyTime = busyTime + job.getSleepTime() * 10;
+                    busyTime = busyTime + 5;
                     long serviceTimeStartIO = System.currentTimeMillis();
-                    SleepUtilities.nap(job.getSleepTime());
+                    SleepUtilities.nap(5);
                     long serviceTimeEndIO = System.currentTimeMillis();
 
                     long tempServiceTimeIO = serviceTimeEndIO - serviceTimeStartIO ;
@@ -97,9 +97,9 @@ public class Consumer implements Runnable {
                     System.out.println("Consumer napping for 50");
                     System.out.println("Consumer consumed job:" + job + " " + job.getType());
 
-                    busyTime = busyTime + job.getSleepTime() * 10;
+                    busyTime = busyTime + 50;
                     long serviceTimeStartCPU = System.currentTimeMillis();
-                    SleepUtilities.nap(job.getSleepTime());
+                    SleepUtilities.nap(50);
                     long serviceTimeEndCPU = System.currentTimeMillis();
                     long tempServiceTimeCPU = serviceTimeEndCPU - serviceTimeStartCPU;
                     averageServiceTimeCPU.add(tempServiceTimeCPU);

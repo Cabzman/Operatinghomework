@@ -7,21 +7,22 @@ import java.util.ArrayList;
 public class Factory {
 
     public static void main(String args[]) throws InterruptedException {
-        long startTime = System.currentTimeMillis();
+
         Buffer server = new BoundedBuffer();
         Statistics stats = new Statistics();
         ThreadGroup threadgroup = new ThreadGroup("");
 
 
         // now create the producer and consumer threads
+        long startTime = System.currentTimeMillis();
         Thread producerThread = new Thread(threadgroup, new Producer(server,"I/O"));
         Thread producerThread0 = new Thread(threadgroup, new Producer(server,"CPU"));
         Thread consumerThread1 = new Thread(threadgroup, new Consumer(server));
-      //  Thread consumerThread2 = new Thread(new Consumer(server));
+        Thread consumerThread2 = new Thread(threadgroup, new Consumer(server));
         producerThread.start();
         producerThread0.start();
         consumerThread1.start();
-      //  consumerThread2.start();
+        consumerThread2.start();
 
         Thread.sleep(10000);
         threadgroup.interrupt();
