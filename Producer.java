@@ -41,11 +41,11 @@ public class Producer implements Runnable {
                 // produce an item & enter it into the buffer
                 job = new Job(jobType);
                 System.out.println("Producer produced " + job + " " + job.getType().toString());
-//                if (job.getType() == "I/O"){
-//                    job.sleepTime(5);
-//                }else{
-//                    job.sleepTime(50);
-//                }
+                if (job.getType() == "I/O"){
+                    job.sleepTime(5);
+                }else{
+                    job.sleepTime(50);
+                }
                 job.arrivialTime();
                 buffer.insert(job);
             } catch (Exception e) {

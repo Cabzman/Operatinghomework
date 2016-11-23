@@ -20,7 +20,7 @@ public class BoundedBuffer implements Buffer   {
     private Semaphore full;
     private int count;
     private int in, out;
-  //private LinkedList buffer;
+ // private LinkedList buffer;
     private PriorityQueue buffer;
 
     public BoundedBuffer() {
@@ -29,7 +29,7 @@ public class BoundedBuffer implements Buffer   {
         in = 0;
         out = 0;
 
-       //buffer = new LinkedList();
+      // buffer = new LinkedList();
 
 
 

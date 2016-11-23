@@ -63,9 +63,9 @@ public class Consumer implements Runnable {
                     System.out.println("Consumer napping for 5");
                     System.out.println("Consumer consumed job:" + job + " " + job.getType());
 
-                    busyTime = busyTime + 5;
+                    busyTime = busyTime + job.getSleepTime();
                     long serviceTimeStartIO = System.currentTimeMillis();
-                    SleepUtilities.nap(5);
+                    SleepUtilities.nap(job.getSleepTime());
                     long serviceTimeEndIO = System.currentTimeMillis();
 
                     long tempServiceTimeIO = serviceTimeEndIO - serviceTimeStartIO ;
@@ -75,7 +75,7 @@ public class Consumer implements Runnable {
                     averageServiceTimeIO.add(tempServiceTimeIO);
 
                     //subtract 50 to shift everything to line everything up properly
-                    long tempWait =( (serviceTimeStartIO - job.getArrivialTime()) - job.getSleepTime() * 10 );
+                    long tempWait =( (serviceTimeStartIO - job.getArrivialTime()));
 
                     if (maxWaitTimeTotalIO < tempWait) {
                         maxWaitTimeTotalIO = tempWait;
@@ -97,9 +97,9 @@ public class Consumer implements Runnable {
                     System.out.println("Consumer napping for 50");
                     System.out.println("Consumer consumed job:" + job + " " + job.getType());
 
-                    busyTime = busyTime + 50;
+                    busyTime = busyTime + job.getSleepTime();
                     long serviceTimeStartCPU = System.currentTimeMillis();
-                    SleepUtilities.nap(50);
+                    SleepUtilities.nap(job.getSleepTime());
                     long serviceTimeEndCPU = System.currentTimeMillis();
                     long tempServiceTimeCPU = serviceTimeEndCPU - serviceTimeStartCPU;
                     averageServiceTimeCPU.add(tempServiceTimeCPU);
