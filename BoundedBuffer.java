@@ -20,8 +20,8 @@ public class BoundedBuffer implements Buffer   {
     private Semaphore full;
     private int count;
     private int in, out;
- // private LinkedList buffer;
-    private PriorityQueue buffer;
+  private LinkedList buffer;
+    //private PriorityQueue buffer;
 
     public BoundedBuffer() {
         // buffer is initially empty
@@ -29,22 +29,22 @@ public class BoundedBuffer implements Buffer   {
         in = 0;
         out = 0;
 
-      // buffer = new LinkedList();
+      buffer = new LinkedList();
 
 
 
 
-        buffer = new PriorityQueue<Job>( new Comparator<Job>() {
-            @Override
-            public int compare(Job job1, Job job2) {
-                if(job1.getType().equals("I/O)") && job2.getType().equals("CPU")){
-                    return 1;
-                }else if(job2.getType().equals("I/O)") && job1.getType().equals("CPU") ){
-                    return -1;
-                }
-                return 0;
-            }
-        });
+//        buffer = new PriorityQueue<Job>( new Comparator<Job>() {
+//            @Override
+//            public int compare(Job job1, Job job2) {
+//                if(job1.getType().equals("I/O)") && job2.getType().equals("CPU")){
+//                    return 1;
+//                }else if(job2.getType().equals("I/O)") && job1.getType().equals("CPU") ){
+//                    return -1;
+//                }
+//                return 0;
+//            }
+//        });
 
         mutex = new Semaphore(1);
         empty = new Semaphore(BUFFER_SIZE);

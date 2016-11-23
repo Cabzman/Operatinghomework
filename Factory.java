@@ -18,15 +18,14 @@ public class Factory {
         Thread producerThread = new Thread(threadgroup, new Producer(server,"I/O"));
         Thread producerThread0 = new Thread(threadgroup, new Producer(server,"CPU"));
         Thread consumerThread1 = new Thread(threadgroup, new Consumer(server));
-      //  Thread consumerThread2 = new Thread(threadgroup, new Consumer(server));
-      //  Thread consumerThread3 = new Thread(threadgroup, new Consumer(server));
-     //Thread consumerThread4 = new Thread(threadgroup, new Consumer(server));
+       Thread consumerThread2 = new Thread(threadgroup, new Consumer(server));Thread consumerThread3 = new Thread(threadgroup, new Consumer(server));
+     Thread consumerThread4 = new Thread(threadgroup, new Consumer(server));
         producerThread.start();
         producerThread0.start();
         consumerThread1.start();
-      //  consumerThread2.start();
-      //  consumerThread3.start();
-      //  consumerThread4.start();
+        consumerThread2.start();
+        consumerThread3.start();
+        consumerThread4.start();
 
         Thread.sleep(100000);
         threadgroup.interrupt();
